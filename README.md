@@ -29,3 +29,17 @@ A:  A script is a procedure that only reads information from the blockcahin, whe
     2- Clarity is useful for the users to understand the smart contracts that they are signing. In a physical representation, a User should be able to read the entirety of the contract they sign. It should be no different in a digital form.
     3- Approachability helps ease the transition for qualified developers and as a result promotes faster growth and rentention for the system.
     4- The developer experience helps to reduce wasted time and allows faster response rates to known issues.
+
+## Chapter 2 - Day 1
+```Cadence
+pub contract JacobTucker{
+
+pub let is: String
+
+init(){
+  self.is = "the best"
+  }
+}
+```
+![Screenshot (350)](https://user-images.githubusercontent.com/93283651/178340892-9a80e24a-43fe-4ef3-bd0c-f356c20e93d1.png)
+
