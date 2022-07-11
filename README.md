@@ -58,3 +58,33 @@ init(){
   A: The prepare phase is used to access data in the authorizers account, while the execute phase is used to call functions that change/modify the data in the
   account.
 
+```Cadence
+pub contract JacobTucker{
+
+pub let is: String
+pub var myNumber: Int
+
+init(){
+  self.is = "the best"
+  self.myNumber = 0
+  }
+
+pub fun updateMyNumber(newNumber: Int){
+  self.myNumber = newNumber
+}
+}
+'''
+```Cadence
+import HelloWorld from 0x01
+
+transaction(myNewGreeting: String){
+  prepare(signer: AuthAccount){
+  
+  }
+  execute{
+    HelloWorld.changeGreeting(newGreeting: myNewGreeting)
+  }
+}
+```
+![chp2_day2](https://user-images.githubusercontent.com/93283651/178354073-64a711bc-4149-401b-a4de-a1b7539abb45.JPG)
+
