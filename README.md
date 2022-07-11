@@ -75,15 +75,16 @@ pub fun updateMyNumber(newNumber: Int){
 }
 ```
 ```Cadence
-import HelloWorld from 0x01
+import JacobTucker from 0x03
 
-transaction(myNewGreeting: String){
-  prepare(signer: AuthAccount){
-  
-  }
-  execute{
-    HelloWorld.changeGreeting(newGreeting: myNewGreeting)
-  }
+transaction(myNewNumber: Int){
+prepare(signer: AuthAccount){
+
+}
+execute{
+    JacobTucker.updateMyNumber(newNumber: myNewNumber)
+}
+
 }
 ```
 ![chp2_day2](https://user-images.githubusercontent.com/93283651/178354073-64a711bc-4149-401b-a4de-a1b7539abb45.JPG)
