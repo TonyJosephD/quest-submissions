@@ -12,7 +12,7 @@ A:  A Smart Contract is a digital intermediary between two parties that accompli
 
 -Q:  Explain the difference between a script and a transaction.
 
-A:  A script is a procedure that only reads information from the blockcahin, whereas a transaction is a procedure that changes the state of the blockchain.
+A:  A script is a procedure that only reads information from the blockcahin and is free, whereas a transaction is a procedure that changes the state of the blockchain and costs a fee(gas).
 
 ## Chapter 1 - Day 2
  -Q: What are the 5 Cadence Programming Language Pillars?
