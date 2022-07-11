@@ -1,6 +1,6 @@
 # quest-submissions
 
-#Chapter 1 - Day 1
+# Chapter 1 - Day 1
 
 Q:  Explain what the Blockchain is in your own words.
 A:  The Blockchain is an online database that permanently stores information strung across a timeline. It is open and available to everyone as well as decentralized ( not controlled by any single entity).
