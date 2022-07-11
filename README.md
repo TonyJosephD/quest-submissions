@@ -1,6 +1,6 @@
-## Tony's Quest Submissions
+# Tony's Quest Submissions
 
-# Chapter 1 - Day 1
+## Chapter 1 - Day 1
 
 Q:  Explain what the Blockchain is in your own words.
 
