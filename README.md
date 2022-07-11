@@ -1,4 +1,4 @@
-# Tony's Quest Submissions
+# Tony's(aka CourtSide) Quest Submissions
 
 ## Chapter 1 - Day 1
 
@@ -42,4 +42,19 @@ init(){
 }
 ```
 ![Screenshot (350)](https://user-images.githubusercontent.com/93283651/178340892-9a80e24a-43fe-4ef3-bd0c-f356c20e93d1.png)
+
+## Chapter 2 - Day 2
+
+-Q: Explain why we wouldn't call changeGreeting in a script.
+
+ A: A script only reads the information on the blockchain, so we would not have the capability of changing the greeting while running a script.
+
+ -Q: What does the AuthAccount mean in the prepare phase of the transaction?
+ 
+  A: The AuthAccount is the address of the party that is initializing the transaction and granting permission to access data.
+  
+  -Q:What is the difference between the prepare phase and the execute phase in the transaction?
+  
+  A: The prepare phase is used to access data in the authorizers account, while the execute phase is used to call functions that change/modify the data in the
+  account.
 
