@@ -73,7 +73,7 @@ pub fun updateMyNumber(newNumber: Int){
   self.myNumber = newNumber
 }
 }
-'''
+```
 ```Cadence
 import HelloWorld from 0x01
 
