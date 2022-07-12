@@ -89,3 +89,40 @@ execute{
 ```
 ![chp2_day2](https://user-images.githubusercontent.com/93283651/178354073-64a711bc-4149-401b-a4de-a1b7539abb45.JPG)
 
+## Chapter 2 - Day 3
+
+Q1: In a script, initialize an array (that has length == 3) of your favourite people, represented as Strings, and log it.
+Q2: In a script, initialize a dictionary that maps the Strings Facebook, Instagram, Twitter, YouTube, Reddit, and LinkedIn to a UInt64 that represents the order in which you use them from most to least. For example, YouTube --> 1, Reddit --> 2, etc. If you've never used one before, map it to 0!
+
+A1+2:
+
+```Cadence
+pub fun main(){
+
+var favPeople: [String] = ["Me", "Myself", "I"]
+var socialMedia: {String : UInt64} = {"Twitter" : 1, "YouTube" : 2, "LinkedIn" : 3, "Facebook" : 4, "Instagram" : 5} 
+
+log(favPeople)
+}
+```
+Q3: Explain what the force unwrap operator ! does, with an example different from the one I showed you (you can just change the type).
+
+A3: 
+
+```Cadence
+// Declare an Optional Type. This type can either be UInt64 or Nil. All optional types can be either Nil or the
+// type that we specify. In this case we specify a UInt64
+var myNumber: UInt64? = 5 
+
+// The force unwrap operator "!" indicates that we want the specified type(that's not Nil) from the
+// optional.
+var whoseNumber: UInt64 = myNumber! 
+```
+
+Q4: Explain from image
+What the error message means
+Why we're getting this error
+How to fix it
+
+A4: The error message "mismatched types. expected String got String?" means that you are indicating you are going to return a String type, but are actually returning an optional type. You get this error for two reasons: 1) You have accessed an element inside a dictionary and dictionaries will always return an optional type. 2) After accessing the dictionaries optional type, you have not used the force unwrap operator "!". You can fix it in one of two ways: 1) Use the force unwrap operator "!", after the element in the return statement. 2) Change the return type to "String?" in the function declaration.
+
