@@ -126,3 +126,77 @@ How to fix it
 
 A4: The error message "mismatched types. expected String got String?" means that you are indicating you are going to return a String type, but are actually returning an optional type. You get this error for two reasons: 1) You have accessed an element inside a dictionary and dictionaries will always return an optional type. 2) After accessing the dictionaries optional type, you have not used the force unwrap operator "!". You can fix it in one of two ways: 1) Use the force unwrap operator "!", after the element in the return statement. 2) Change the return type to "String?" in the function declaration.
 
+## Chapter 2 - Day 4
+
+Questions: 
+ 
+Deploy a new contract that has a Struct of your choosing inside of it (must be different than Profile).
+
+Create a dictionary or array that contains the Struct you defined.
+
+Create a function to add to that array/dictionary.
+
+Add a transaction to call that function in step 3.
+
+Add a script to read the Struct you defined.
+
+Answers:
+
+```Cadence
+pub contract info {
+
+  pub var families: {String: Family}
+
+  init(){
+  self.families = {}
+  }
+
+  pub struct Family {
+
+    pub let lastName: String
+    pub let sisters: UInt64
+    pub let brothers: UInt64
+    pub let children: UInt64
+    pub let spouse: Bool
+
+    init(lastName: String, sisters: UInt64, brothers: UInt64, children: UInt64, spouse: Bool){
+    self.lastName = lastName
+    self.sisters = sisters
+    self.brothers = brothers
+    self.children = children
+    self.spouse = spouse
+    }
+  }
+ 
+ pub fun addFamily(lastName: String, sisters: UInt64, brothers: UInt64, children: UInt64, spouse: Bool){
+  let newFamily = Family(lastName: lastName, sisters: sisters, brothers: brothers, children: children, spouse: spouse)
+  self.families[lastName] = newFamily
+ }
+
+
+}
+```
+
+```Cadence
+import info from 0x02
+
+transaction(lastName: String, sisters: UInt64, brothers: UInt64, children: UInt64, spouse: Bool){
+    prepare(signer: AuthAccount){
+    
+    }
+
+    execute{
+        info.addFamily(lastName: lastName, sisters: sisters, brothers: brothers, children: children, spouse: spouse)
+    }
+
+}
+```
+
+```Cadence
+import info from 0x02
+
+pub fun main(lastName: String): info.Family {
+    return info.families[lastName]!
+
+}
+```
