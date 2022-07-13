@@ -219,11 +219,11 @@ A: create
 
 A: No, it can only be created in a contract.
 
--Q: What is the type of the resource below?
+- Q: What is the type of the resource below?
 
 A: -------------------------------------
 
--Q: Fix the 4 errors in the code
+- Q: Fix the 4 errors in the code
 
 A:
 
