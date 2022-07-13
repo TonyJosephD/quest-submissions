@@ -200,3 +200,47 @@ pub fun main(lastName: String): info.Family {
 
 }
 ```
+
+## Chapter 3 - Day 1
+
+- Q: In words, list 3 reasons why structs are different from resources.
+
+A: Resources can NOT be copied, they MUST be accounted for (moved or removed), they are overly explicit in communication and therefore easy to keep track of/ difficult to ever lose.
+
+- Q: Describe a situation where a resource might be better to use than a struct.
+
+A: When you want to provide a unique instance of something, and certain that it can not be copied or misrepresented.
+
+- Q: What is the keyword to make a new resource?
+
+A: create
+
+-Q: Can a resource be created in a script or transaction (assuming there isn't a public function to create one)?
+
+A: No, it can only be created in a contract.
+
+-Q: What is the type of the resource below?
+
+A: -------------------------------------
+
+-Q: Fix the 4 errors in the code
+
+A:
+
+```Cadence
+pub contract Test {
+
+    // Hint: There's nothing wrong here ;)
+    pub resource Jacob {
+        pub let rocks: Bool
+        init() {
+            self.rocks = true
+        }
+    }
+
+    pub fun createJacob(): @Jacob { // there was 1 here
+        let myJacob <- create Jacob() // there were 2 here
+        return <- myJacob // there was 1 here
+    }
+}
+```
