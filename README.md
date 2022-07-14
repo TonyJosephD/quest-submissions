@@ -221,7 +221,7 @@ A: No, it can only be created in a contract.
 
 - Q: What is the type of the resource below?
 
-A: -------------------------------------
+A: An empty one
 
 - Q: Fix the 4 errors in the code
 
@@ -242,5 +242,63 @@ pub contract Test {
         let myJacob <- create Jacob() // there were 2 here
         return <- myJacob // there was 1 here
     }
+}
+```
+
+## Chapter 3 - Day 2
+
+- Q: Write your own smart contract that contains two state variables: an array of resources, and a dictionary of resources. Add functions to remove and add to each of them. They must be different from the examples above.
+
+A:
+
+```Cadence
+pub contract myPets{
+
+//Array of dogs
+pub let myDogs: @[dog]
+
+//Dictionary of Cats
+pub let myCats: @{String: cat}
+
+//Resources (Pets)
+pub resource dog{
+  pub let name: String
+  init(){
+    self.name = "GoodDog"
+  }
+}
+
+pub resource cat{
+  pub let name: String
+  init(){
+    self.name = "BadCat"
+  }
+}
+
+//Functions
+pub fun addDog(dog: @dog){
+  self.myDogs.append(<- dog)
+}
+
+pub fun removeDog(index: Int): @dog{
+  return <- self.myDogs.remove(at: index)
+}
+
+pub fun addCat(cat: @cat){
+  let catName = cat.name
+  self.myCats[catName]<-! cat
+}
+
+pub fun removeCat(catName: String): @cat{
+  let myCat <- self.myCats.remove(key: catName)!
+  return <- myCat
+}
+
+//Constructor
+init(){
+  self.myDogs <- []
+  self.myCats <- {}
+}
+
 }
 ```
