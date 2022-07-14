@@ -221,7 +221,7 @@ A: No, it can only be created in a contract.
 
 - Q: What is the type of the resource below?
 
-A: An empty one
+A: it is a resource type @Jacob
 
 - Q: Fix the 4 errors in the code
 
