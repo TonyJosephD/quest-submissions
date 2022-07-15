@@ -302,3 +302,43 @@ init(){
 
 }
 ```
+
+## Chapter 3 - Day 3
+- Q: Define your own contract that stores a dictionary of resources. Add a function to get a reference to one of the resources in the dictionary.
+
+A: 
+
+```Cadence
+pub contract athletes{
+
+pub var players: @{String: Sport}
+
+pub resource Sport{
+
+  pub var playerSport: String
+
+  init(playerSport: String){
+    self.playerSport = playerSport 
+  }
+}
+
+  pub fun getSportReference(key: String): &Sport?{
+  return &self.players[key] as &Sport?
+  }
+
+  init(){
+self.players <- {"Tiger Woods" : <- create Sport(playerSport: "Golf"), 
+                  "Lebron James" : <- create Sport(playerSport: "BasketBall")}
+}
+}
+```
+
+- Q: Create a script that reads information from that resource using the reference from the function you defined in part 1.
+
+A:
+
+![Screenshot (352)](https://user-images.githubusercontent.com/93283651/179245574-9fcfe223-e65c-4c3f-9fa4-5cd561ea31c3.png)
+
+- Q: Explain, in your own words, why references can be useful in Cadence.
+
+A: references are useful since resources are so well protected in Cadence. If we just want to get information from a resource, we do not have to worry about moving it around which could be dangerous. Instead we just get the reference which will not harm the resource in any way and we do not have to keep track of where we are moving it in order to put it back in the right place when we are done.
