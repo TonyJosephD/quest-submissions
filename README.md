@@ -436,15 +436,13 @@ For the second error, we must add the function "changeGreeting" to the interface
 
 Answers Below:
 
-- Variables 
+Variables 
+- a) pub(set): can be read and wrote in All 4 Areas
+- b) pub var: can be read in all 4 areas, but can only be written in Area 1
+- c) access(contract): can be read in only areas 1-3 (but not 4), and can only be written in area 1
+- d) accesss(self): can only be read and wrote in Area 1
 
-a)  pub(set): can be read and wrote in All 4 Areas
-b) pub var: can be read in all 4 areas, but can only be written in Area 1
-c) access(contract): can be read in only areas 1-3 (but not 4), and can only be written in area 1
-d) accesss(self): can only be read and wrote in Area 1
-
-- Functions
-
-pub fun publicFunc() - Can be called in any area (Except Area 4 which is a Script. If area 4 was a transaction it could be called there)
-access(contract) fun contractFunc() - Can be called anywhere within the contract (In this case Areas 1-3)
-access(self) fun privateFunc() - Can only be called within the current and inner scope (In this case only Area 1)
+Functions
+- pub fun publicFunc() - Can be called in any area (Except Area 4 which is a Script. If area 4 was a transaction it could be called there)
+- access(contract) fun contractFunc() - Can be called anywhere within the contract (In this case Areas 1-3)
+- access(self) fun privateFunc() - Can only be called within the current and inner scope (In this case only Area 1)
