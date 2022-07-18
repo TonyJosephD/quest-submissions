@@ -337,7 +337,15 @@ self.players <- {"Tiger Woods" : <- create Sport(playerSport: "Golf"),
 
 A:
 
-![Screenshot (352)](https://user-images.githubusercontent.com/93283651/179245574-9fcfe223-e65c-4c3f-9fa4-5cd561ea31c3.png)
+```Cadence
+import athletes from 0x01
+
+pub fun main(): String {
+  let ref = athletes.getSportReference(key: "Tiger Woods")
+  return ref.playerSport
+
+}
+```
 
 - Q: Explain, in your own words, why references can be useful in Cadence.
 
