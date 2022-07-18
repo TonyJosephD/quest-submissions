@@ -429,3 +429,22 @@ pub contract Stuff {
 
 A: For the frist error, we need to add the variable "favouriteFruit" to our resource "Test" itself because it is in the interface so we must implement it.
 For the second error, we must add the function "changeGreeting" to the interface if we want to allow the function to be accessed(and in this case fix the error).
+
+## Chapter 3 - Day 5
+
+- Q: For today's quest, you will be looking at a contract and a script. You will be looking at 4 variables (a, b, c, d) and 3 functions (publicFunc, contractFunc, privateFunc) defined in SomeContract. In each AREA (1, 2, 3, and 4), I want you to do the following: for each variable (a, b, c, and d), tell me in which areas they can be read (read scope) and which areas they can be modified (write scope). For each function (publicFunc, contractFunc, and privateFunc), simply tell me where they can be called.
+
+Answers Below:
+
+- Variables 
+
+a)  pub(set): can be read and wrote in All 4 Areas
+b) pub var: can be read in all 4 areas, but can only be written in Area 1
+c) access(contract): can be read in only areas 1-3 (but not 4), and can only be written in area 1
+d) accesss(self): can only be read and wrote in Area 1
+
+- Functions
+
+pub fun publicFunc() - Can be called in any area (Except Area 4 which is a Script. If area 4 was a transaction it could be called there)
+access(contract) fun contractFunc() - Can be called anywhere within the contract (In this case Areas 1-3)
+access(self) fun privateFunc() - Can only be called within the current and inner scope (In this case only Area 1)
