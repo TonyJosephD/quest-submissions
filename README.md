@@ -350,3 +350,82 @@ pub fun main(): String {
 - Q: Explain, in your own words, why references can be useful in Cadence.
 
 A: references are useful since resources are so well protected in Cadence. If we just want to get information from a resource, we do not have to worry about moving it around which could be dangerous. Instead we just get the reference which will not harm the resource in any way and we do not have to keep track of where we are moving it in order to put it back in the right place when we are done.
+
+## Chapter 3 - Day 4
+
+- Q: Explain, in your own words, the 2 things resource interfaces can be used for (we went over both in today's content)
+
+A: 1) It acts as a "check list" of characteristics(attributes) and actions(functions) that a resource must have.
+
+ 2) It can provide limited functionality to others when you want to be able to provide access to some elements of a resource, but still want to keep some elements of that resource private/secure.
+
+- Q: Define your own contract. Make your own resource interface and a resource that implements the interface. Create 2 functions. In the 1st function, show an example of not restricting the type of the resource and accessing its content. In the 2nd function, show an example of restricting the type of the resource and NOT being able to access its content.
+
+A: 
+```Cadence
+pub contract interfaces{
+
+  pub resource interface IPractice {
+    pub let number: Int64
+  }
+
+  pub resource Practice: IPractice{
+
+    pub let number: Int64
+    pub let moment: String
+    init(){
+      self.number = 69420
+      self.moment = "KD Seeing Stars (IYKYK)"
+    }
+  }
+
+  pub fun practiceNoInterface() {
+    let moment: @Practice <- create Practice()
+    log(moment.moment)
+    destroy moment
+  }
+
+  pub fun practiceWithInterface() {
+    let moment: @Practice{IPractice} <- create Practice()
+    log(moment.moment) //member of restricted type is not accessible
+    destroy moment
+  }
+
+}
+```
+
+- Q: How Could we fix this code?
+```Cadence
+pub contract Stuff {
+
+    pub struct interface ITest {
+      pub var greeting: String
+      pub var favouriteFruit: String
+    }
+
+    // ERROR:
+    // `structure Stuff.Test does not conform 
+    // to structure interface Stuff.ITest`
+    pub struct Test: ITest {
+      pub var greeting: String
+
+      pub fun changeGreeting(newGreeting: String): String {
+        self.greeting = newGreeting
+        return self.greeting // returns the new greeting
+      }
+
+      init() {
+        self.greeting = "Hello!"
+      }
+    }
+
+    pub fun fixThis() {
+      let test: Test{ITest} = Test()
+      let newGreeting = test.changeGreeting(newGreeting: "Bonjour!") // ERROR HERE: `member of restricted type is not accessible: changeGreeting`
+      log(newGreeting)
+    }
+}
+```
+
+A: For the frist error, we need to add the variable "favouriteFruit" to our resource "Test" itself because it is in the interface so we must implement it.
+For the second error, we must add the function "changeGreeting" to the interface if we want to allow the function to be accessed(and in this case fix the error).
