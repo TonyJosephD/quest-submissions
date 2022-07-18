@@ -322,8 +322,8 @@ pub resource Sport{
   }
 }
 
-  pub fun getSportReference(key: String): &Sport?{
-  return &self.players[key] as &Sport?
+  pub fun getSportReference(key: String): &Sport{
+  return (&self.players[key] as &Sport?)!
   }
 
   init(){
