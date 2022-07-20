@@ -476,9 +476,6 @@ A: Each Transaction takes in an AuthAccount Parameter which is going to represen
 
 - Q: Define a contract that returns a resource that has at least 1 field in it. Then, write 2 transactions:
 
-A transaction that first saves the resource to account storage, then loads it out of account storage, logs a field inside the resource, and destroys it.
-
-A transaction that first saves the resource to account storage, then borrows a reference to it, and logs a field inside the resource.
 
 A: 
 
@@ -506,6 +503,7 @@ access(all) contract coins {
 
 }
 ```
+A transaction that first saves the resource to account storage, then loads it out of account storage, logs a field inside the resource, and destroys it.
 
 ```Cadence
 import coins from 0x01
@@ -526,6 +524,7 @@ transaction {
 }
 
 ```
+A transaction that first saves the resource to account storage, then borrows a reference to it, and logs a field inside the resource.
 ```Cadence
 import coins from 0x01
 
@@ -555,12 +554,6 @@ A: .link() will "map" a resource that is in account storage to a public or priva
 A: When we link a resource to the /public path we can restrict the resource we are sharing to an interface that it implements. We can choose to include as much or little in the interface that we want others to access. This way others will only have access to the interface and therefore only the elements we have pre-selected.
 
 - Q: Deploy a contract that contains a resource that implements a resource interface. Then, do the following:
-
-In a transaction, save the resource to storage and link it to the public with the restrictive interface.
-
-Run a script that tries to access a non-exposed field in the resource interface, and see the error pop up.
-
-Run the script and access something you CAN read from. Return it from the script.
 
 ```Cadence
 access(all) contract coins {
@@ -592,8 +585,30 @@ access(all) contract coins {
 
 }
 ```
+In a transaction, save the resource to storage and link it to the public with the restrictive interface.
+
+```Cadence
+import coins from 0x01
+
+transaction {
+
+  prepare(acct: AuthAccount) {
+    let newCoin <- coins.createBitcoin()
+    acct.save(<- newCoin, to: /storage/myNewCoin)
+    acct.link<&coins.Bitcoin{coins.IBitcoin}>(/public/myNewCoin, target: /storage/myNewCoin)
+    
+    }
+  execute {
+    
+  }
+}
+```
+
+Run a script that tries to access a non-exposed field in the resource interface, and see the error pop up.
 
 ![failed_script](https://user-images.githubusercontent.com/93283651/180036518-07e43722-37bf-4ba0-b4b3-b1c1393c2578.PNG)
+
+Run the script and access something you CAN read from. Return it from the script.
 
 ```Cadence
 import coins from 0x01
