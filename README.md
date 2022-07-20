@@ -543,3 +543,66 @@ transaction {
   }
 }
 ```
+
+## Chapter 4 - Day 2
+
+- Q: What does .link() do?
+
+A: .link() will "map" a resource that is in account storage to a public or private path so that others can access it.
+
+- Q: In your own words (no code), explain how we can use resource interfaces to only expose certain things to the /public/ path.
+
+A: When we link a resource to the /public path we can restrict the resource we are sharing to an interface that it implements. We can choose to include as much or little in the interface that we want others to access. This way others will only have access to the interface and therefore only the elements we have pre-selected.
+
+- Q: Deploy a contract that contains a resource that implements a resource interface. Then, do the following:
+
+In a transaction, save the resource to storage and link it to the public with the restrictive interface.
+
+Run a script that tries to access a non-exposed field in the resource interface, and see the error pop up.
+
+Run the script and access something you CAN read from. Return it from the script.
+
+```Cadence
+access(all) contract coins {
+
+    access(all) resource interface IBitcoin{
+        access(all) var price: UInt64
+    }
+
+   access(all) resource Bitcoin: IBitcoin {
+    
+        access(all) var price: UInt64
+        access(all) let owned: Bool
+
+        init(){
+            self.price = 23000
+            self.owned = false
+        }
+
+   }
+
+   access(all) fun createBitcoin(): @Bitcoin {
+    return <- create Bitcoin()
+   }
+
+    
+    init() {
+
+    }
+
+}
+```
+
+![failed_script](https://user-images.githubusercontent.com/93283651/180036518-07e43722-37bf-4ba0-b4b3-b1c1393c2578.PNG)
+
+```Cadence
+import coins from 0x01
+
+pub fun main(account: Address): UInt64 {
+  let myCapability: Capability<&coins.Bitcoin{coins.IBitcoin}> = getAccount(account).getCapability<&coins.Bitcoin{coins.IBitcoin}>(/public/myNewCoin)
+  let checkOwnership: &coins.Bitcoin{coins.IBitcoin} = myCapability.borrow() ?? panic("You do not have Capability.")
+
+  return checkOwnership.price
+}
+
+```
