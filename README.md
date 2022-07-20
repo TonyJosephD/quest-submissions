@@ -446,3 +446,100 @@ Functions
 - pub fun publicFunc() - Can be called in any area (Except Area 4 which is a Script. If area 4 was a transaction it could be called there)
 - access(contract) fun contractFunc() - Can be called anywhere within the contract (In this case Areas 1-3)
 - access(self) fun privateFunc() - Can only be called within the current and inner scope (In this case only Area 1)
+
+## Chapter 4 - Day 1
+- Q: Explain what lives inside of an account.
+
+A: An account is a container of two categories, Contracts and Paths. You can have 0-Many different smart contracts inside an account, and there are 3 Paths inside an account. There is a path to storage which holds all the data within an account and paths to public and private account data.
+
+- Q: What is the difference between the /storage/, /public/, and /private/ paths?
+
+A:
+1) /storage contains all the data within an account and is only accessbile by the account owner.
+2) /public grants access to the account's data to everyone
+3) /private grants access to the account owner and anyone else they choose to grant access to.
+
+- Q: What does .save() do? What does .load() do? What does .borrow() do?
+
+A:
+1) .save() will actually store data to the account
+2) .load() will move data out of the account
+3) .borrow() will just look at data inside an account
+
+- Q: Explain why we couldn't save something to our account storage inside of a script.
+
+A: Saving something to our account would require changing the block chain. Therefore we need a transaction in order to take in our account name and use it as a "permission slip" to add data to our account (and therefore change the blockchain).
+
+- Q: Explain why I couldn't save something to your account.
+
+A: Each Transaction takes in an AuthAccount Parameter which is going to represent the account address responsible for making the transaction. Saving requires access to an accounts storage, and only the account owner has access to their storage. Therefore the only storage an account could save anything to is their own.
+
+- Q: Define a contract that returns a resource that has at least 1 field in it. Then, write 2 transactions:
+
+A transaction that first saves the resource to account storage, then loads it out of account storage, logs a field inside the resource, and destroys it.
+
+A transaction that first saves the resource to account storage, then borrows a reference to it, and logs a field inside the resource.
+
+A: 
+
+```Cadence
+access(all) contract coins {
+
+   access(all) resource Bitcoin {
+    
+        access(all) var price: UInt64
+
+        init(){
+            self.price = 23000
+        }
+
+   }
+
+   access(all) fun createBitcoin(): @Bitcoin {
+    return <- create Bitcoin()
+   }
+
+    
+    init() {
+
+    }
+
+}
+```
+
+```Cadence
+import coins from 0x01
+
+transaction {
+
+  prepare(acct: AuthAccount) {
+    let newCoin <- coins.createBitcoin()
+    acct.save(<- newCoin, to: /storage/myNewCoin)
+    let loadCoin <- acct.load<@coins.Bitcoin>(from: /storage/myNewCoin) ?? panic("You have no Bitcoin!")
+    log(loadCoin.price)
+    destroy loadCoin
+    
+    }
+  execute {
+    
+  }
+}
+
+```
+```Cadence
+import coins from 0x01
+
+transaction {
+
+  prepare(acct: AuthAccount) {
+    let newCoin <- coins.createBitcoin()
+    acct.save(<- newCoin, to: /storage/myNewCoin)
+    let borrowedCoin = acct.borrow<&coins.Bitcoin>(from: /storage/myNewCoin) ?? panic("You have no Bitcoin!")
+    log(borrowedCoin.price)
+    
+    }
+  execute {
+    
+  }
+}
+```
