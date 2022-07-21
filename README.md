@@ -621,3 +621,13 @@ pub fun main(account: Address): UInt64 {
 }
 
 ```
+
+## Chapter 4 - Day 3
+
+- Q: Why did we add a Collection to this contract? List the two main reasons.
+
+A: We added a collection so we can easily store all our NFTs in one storage path, and so that Other people are able to give us more NFTs
+
+- Q: What do you have to do if you have resources "nested" inside of another resource? ("Nested resources")
+
+A: 
