@@ -630,4 +630,16 @@ A: We added a collection so we can easily store all our NFTs in one storage path
 
 - Q: What do you have to do if you have resources "nested" inside of another resource? ("Nested resources")
 
-A: 
+A: You must define a destroy function that destroys the nested resources.
+
+- Q: Brainstorm some extra things we may want to add to this contract. Think about what might be problematic with this contract and how we could fix it.
+
+Idea #1: Do we really want everyone to be able to mint an NFT? 🤔.
+- A: We could add an NFT Interface that restricts the creatNFT function. Obviously we then change the NFT resource to implement the Interface and we will 
+then update the NFT resource in the Collection to be restricted to the Interface functionality.
+
+Idea #2: If we want to read information about our NFTs inside our Collection, right now we have to take it out of the Collection to do so. Is this good?
+- A: No, this is not safe. We want our NFTs to stay put until we want to do something meaningful with them. We should create a new function that returns a reference to any NFT in our collection. This way if we want to read information about one inside our Collection we can just give out the reference instead.
+
+Additional Idea
+- We might only want certain NFTs to be minted up to a certain amount in order to keep them scarce and valuable. In our NFT resource we should add a new field for totalMinted and initialize it to 0 in our init() function. Then in our createNFT function we should specify that IF totalMinted < our desired maximum amount then we can create a new NFT, but if the totalMinted is == to our desired maximum amount then do not create a new NFT. (Using this logic, I do not know how we could execute this function if it specifies that it returns an @NFT but then we prevent it from creating an NFT and therefore can not return anything.)
