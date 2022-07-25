@@ -643,3 +643,102 @@ Idea #2: If we want to read information about our NFTs inside our Collection, ri
 
 Additional Idea
 - We might only want certain NFTs to be minted up to a certain amount in order to keep them scarce and valuable. In our NFT resource we should add a new field for totalMinted and initialize it to 0 in our init() function. Then in our createNFT function we should specify that IF totalMinted < our desired maximum amount then we can create a new NFT, but if the totalMinted is == to our desired maximum amount then do not create a new NFT. (Using this logic, I do not know how we could execute this function if it specifies that it returns an @NFT but then we prevent it from creating an NFT and therefore can not return anything.)
+
+## Chapter 4 - Day 4
+
+Take our NFT contract so far and add comments to every single resource or function explaining what it's doing in your own words. Something like this:
+
+```Cadence
+pub contract CryptoPoops {
+  pub var totalSupply: UInt64
+
+  // This is an NFT resource that contains a name,
+  // favouriteFood, and luckyNumber
+  pub resource NFT {
+    pub let id: UInt64
+
+    pub let name: String
+    pub let favouriteFood: String
+    pub let luckyNumber: Int
+
+   // Constructor to initialize the state
+    init(_name: String, _favouriteFood: String, _luckyNumber: Int) {
+      self.id = self.uuid
+
+      self.name = _name
+      self.favouriteFood = _favouriteFood
+      self.luckyNumber = _luckyNumber
+    }
+  }
+
+  // This is a resource interface that allows us to share the metadata about our NFT Collection with anyone who is interested.
+  pub resource interface CollectionPublic {
+    pub fun deposit(token: @NFT)
+    pub fun getIDs(): [UInt64]
+    pub fun borrowNFT(id: UInt64): &NFT
+  }
+
+  // This is a resource that allows us to store multiple NFTs within our account, and implements an interface for public accessibility.
+  pub resource Collection: CollectionPublic {
+    pub var ownedNFTs: @{UInt64: NFT}
+
+   // This function takes in a NFT resource and stores it to our collection by mapping the NFT's 'id' to the NFT itself.
+    pub fun deposit(token: @NFT) {
+      self.ownedNFTs[token.id] <-! token
+    }
+
+   // This function takes in an integer that represents an NFT's 'id' within the current collection and returns that NFT, effectively removing it from the Collection.
+    pub fun withdraw(withdrawID: UInt64): @NFT {
+      let nft <- self.ownedNFTs.remove(key: withdrawID) 
+              ?? panic("This NFT does not exist in this Collection.")
+      return <- nft
+    }
+
+   // This function does not require any parameters. It returns an array of Integers that represents each NFT's 'id' within the current collection.
+    pub fun getIDs(): [UInt64] {
+      return self.ownedNFTs.keys
+    }
+
+   // This function takes in an integer that represents an NFT's 'id' in our collection and returns a reference to the NFT so others can obtain information about the    //NFT without having to remove it from our collection.
+    pub fun borrowNFT(id: UInt64): &NFT {
+      return (&self.ownedNFTs[id] as &NFT?)!
+    }
+
+   // Constructor to initialize the collection
+    init() {
+      self.ownedNFTs <- {}
+    }
+
+   // Mandatory function that will destroy all resources(NFT's) within the Collection.
+    destroy() {
+      destroy self.ownedNFTs
+    }
+  }
+
+  // This function creates a new collection resource that has been defined above.
+  pub fun createEmptyCollection(): @Collection {
+    return <- create Collection()
+  }
+
+// This resource provides the functionality to create a new NFT.
+  pub resource Minter {
+
+   //This function takes in three parameters for metadata associated with a new NFT. It returns a new NFT
+    pub fun createNFT(name: String, favouriteFood: String, luckyNumber: Int): @NFT {
+      return <- create NFT(_name: name, _favouriteFood: favouriteFood, _luckyNumber: luckyNumber)
+    }
+   
+   // This function allows us to create a minter resource to create NFTs
+    pub fun createMinter(): @Minter {
+      return <- create Minter()
+    }
+
+  }
+
+ // Constructor that initializes the total supply and provides minting functionality for the account that deploys the contract.
+  init() {
+    self.totalSupply = 0
+    self.account.save(<- create Minter(), to: /storage/Minter)
+  }
+}
+```
