@@ -860,3 +860,67 @@ pub contract Test {
 
 }
 ```
+
+## Chapter 5 - Day 2
+
+- Q: Explain why standards can be beneficial to the Flow ecosystem.
+
+A) Standards allow 3rd parties to interact with multiple contracts easily due to the shared naming conventions and functionality. It is better if every contract abides by the same "rules" so that we can all agree we are being safe, and have the same access to what is available in the same ways.
+
+- Q: What is YOUR favourite food?
+
+A) Poke Bowls
+
+- Q: Please fix this code (Hint: There are two things wrong):
+
+The contract interface:
+```Cadence
+pub contract interface ITest {
+  pub var number: Int
+  
+  pub fun updateNumber(newNumber: Int) {
+    pre {
+      newNumber >= 0: "We don't like negative numbers for some reason. We're mean."
+    }
+    post {
+      self.number == newNumber: "Didn't update the number to be the new number."
+    }
+  }
+
+  pub resource interface IStuff {
+    pub var favouriteActivity: String
+  }
+
+  pub resource Stuff {
+    pub var favouriteActivity: String
+  }
+}
+```
+The Implementing Contract:
+```Cadence
+//Found a problem here where the contract is not actually implementing our Contract Interface "ITest"
+pub contract Test { // Change this line to read: pub contract Test: ITest {
+  pub var number: Int
+  
+  //Found a problem here where we do not actually update the number with the number that we are passing in.
+  pub fun updateNumber(newNumber: Int) {
+    self.number = 5 //Change this line to read: self.number = newNumber
+  }
+
+  pub resource interface IStuff {
+    pub var favouriteActivity: String
+  }
+
+  pub resource Stuff: IStuff {
+    pub var favouriteActivity: String
+
+    init() {
+      self.favouriteActivity = "Playing League of Legends."
+    }
+  }
+
+  init() {
+    self.number = 0
+  }
+}
+```
