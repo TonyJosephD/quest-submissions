@@ -1,4 +1,4 @@
-# Tony(aka CourtSide) Quest Submissions
+# Tony(CourtSide) Quest Submissions
 
 ## Chapter 1 - Day 1
 
